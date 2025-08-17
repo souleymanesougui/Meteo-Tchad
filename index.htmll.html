@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Météo Ultra Réaliste Tchad</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0; padding: 20px;
+  text-align: center;
+  color: #fff;
+  min-height: 100vh;
+  overflow: hidden;
+  transition: background 1s;
+  position: relative;
+  background: linear-gradient(to right, #87ceeb, #00bfff); /* bleu ciel par défaut */
+}
+
+h1 { margin-bottom: 20px; text-shadow: 2px 2px 5px #000; }
+
+.region-btn {
+  background: rgba(255,255,255,0.2);
+  border: none; padding: 10px 20px;
+  margin: 5px; border-radius: 12px;
+  cursor: pointer; font-size: 14px; font-weight: 600;
+  transition: 0.4s all;
+}
+
+.region-btn:hover {
+  background: rgba(255,255,255,0.5);
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#meteo {
+  margin-top: 20px; font-size: 20px; font-weight: bold;
+  padding: 20px; background: rgba(0,0,0,0.25);
+  border-radius: 20px; display: inline-block;
+  min-width: 300px; text-shadow: 1px 1px 3px #000;
+  position: relative;
+}
+
+.icon { font-size: 50px; display: block; margin: 10px 0; animation: bounce 1.5s infinite; }
+@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.sun { animation: rotate 8s linear infinite; display: inline-block; }
+@keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.cloud { position: absolute; font-size: 50px; opacity: 0.8; animation: floatCloud linear infinite; }
+@keyframes floatCloud { 0% { left: -100px; } 100% { left: 110%; } }
+
+.rain { position: absolute; width: 2px; height: 15px; background: #00f; animation: fall linear infinite; opacity:0.7; }
+.snow { position: absolute; width: 6px; height: 6px; background: #fff; border-radius:50%; animation: fallSnow linear infinite; opacity:0.9; }
+.lightning { position: absolute; width: 2px; height: 100px; background: yellow; top:0; left:50%; opacity:0; animation: flash 1.5s infinite; }
+
+@keyframes fall { 0% { top: -20px; opacity:1; } 100% { top: 100vh; opacity:0; } }
+@keyframes fallSnow { 0% { top: -10px; opacity:1; transform: translateX(0); } 100% { top: 100vh; opacity:0.5; transform: translateX(20px); } }
+@keyframes flash { 0%,80%,100% { opacity: 0; } 85%,90% { opacity: 1; } }
+
+.jour { margin-top: 10px; padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.2); display: inline-block; width: 80px; margin-right: 10px; }
+.jour span { display: block; margin-top: 5px; } /* espace Max/Min */
+.hourly { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+.hourly .hour { margin: 5px; padding: 8px; border-radius: 10px; background: rgba(0,0,0,0.2); width: 60px; text-align: center; font-size: 14px; }
+
+</style>
+</head>
+<body>
+
+<h1>Météo Ultra Réaliste – Tchad</h1>
+
+<div id="regions">
+  <button class="region-btn" onclick="getMeteo(12.1131,15.0492,'N\'Djamena')">N'Djamena</button>
+  <button class="region-btn" onclick="getMeteo(17.9167,19.1167,'Faya-Largeau')">Faya-Largeau</button>
+  <button class="region-btn" onclick="getMeteo(14.0,18.0,'Batha')">Batha</button>
+  <button class="region-btn" onclick="getMeteo(21.0,17.0,'Borkou')">Borkou</button>
+  <button class="region-btn" onclick="getMeteo(10.5,16.5,'Chari-Baguirmi')">Chari-Baguirmi</button>
+  <button class="region-btn" onclick="getMeteo(11.5,18.0,'Guéra')">Guéra</button>
+  <button class="region-btn" onclick="getMeteo(12.0,14.5,'Hadjer-Lamis')">Hadjer-Lamis</button>
+  <button class="region-btn" onclick="getMeteo(14.0,15.5,'Kanem')">Kanem</button>
+  <button class="region-btn" onclick="getMeteo(13.0,15.0,'Lac')">Lac</button>
+  <button class="region-btn" onclick="getMeteo(8.5,16.5,'Logone-Oriental')">Logone-Oriental</button>
+  <button class="region-btn" onclick="getMeteo(9.0,15.5,'Logone-Occidental')">Logone-Occidental</button>
+  <button class="region-btn" onclick="getMeteo(8.5,16.0,'Mandoul')">Mandoul</button>
+  <button class="region-btn" onclick="getMeteo(9.0,14.0,'Mayo-Kebbi-Est')">Mayo-Kebbi-Est</button>
+  <button class="region-btn" onclick="getMeteo(9.0,13.5,'Mayo-Kebbi-Ouest')">Mayo-Kebbi-Ouest</button>
+  <button class="region-btn" onclick="getMeteo(9.0,16.0,'Moyen-Chari')">Moyen-Chari</button>
+  <button class="region-btn" onclick="getMeteo(13.0,21.0,'Ouaddaï')">Ouaddaï</button>
+  <button class="region-btn" onclick="getMeteo(10.0,20.0,'Salamat')">Salamat</button>
+  <button class="region-btn" onclick="getMeteo(10.5,21.5,'Sila')">Sila</button>
+  <button class="region-btn" onclick="getMeteo(11.0,16.5,'Tandjilé')">Tandjilé</button>
+  <button class="region-btn" onclick="getMeteo(22.0,17.0,'Tibesti')">Tibesti</button>
+  <button class="region-btn" onclick="getMeteo(13.5,22.0,'Wadi Fira')">Wadi Fira</button>
+  <button class="region-btn" onclick="getMeteo(13.0,18.0,'Ennedi-Est')">Ennedi-Est</button>
+  <button class="region-btn" onclick="getMeteo(16.0,19.0,'Ennedi-Ouest')">Ennedi-Ouest</button>
+  <button class="region-btn" onclick="getMeteo(13.5,17.0,'Barh El Gazel')">Barh El Gazel</button>
+</div>
+
+<div id="meteo">Chargement météo N'Djamena...</div>
+<audio id="sound" loop></audio>
+
+<script>
+let currentSound = document.getElementById('sound');
+const jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+
+function getMeteo(lat, lon, nom){
+  document.querySelectorAll('.rain,.cloud,.snow,.lightning').forEach(e=>e.remove());
+  if(currentSound) { currentSound.pause(); currentSound.src=""; }
+
+  fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,weathercode&daily=temperature_2m_max,temperature_2m_min,weathercode&current_weather=true&timezone=Africa/Ndjamena`)
+  .then(resp=>resp.json())
+  .then(data=>{
+    const tempAct=data.current_weather.temperature;
+    const codeAct=data.current_weather.weathercode;
+
+    // Fond bleu ciel par défaut, change si très chaud
+    if(tempAct>30) document.body.style.background="linear-gradient(to right,#ff512f,#f09819)";
+    else document.body.style.background="linear-gradient(to right, #87ceeb, #00bfff)";
+
+    let iconAct="☀️"; let soundUrl="";
+    if([1,2,3].includes(codeAct)){ iconAct="⛅"; soundUrl="https://www.soundjay.com/nature/wind-01.mp3"; }
+    if([61,63,65].includes(codeAct)){ iconAct="🌧️"; soundUrl="https://www.soundjay.com/nature/rain-01.mp3"; }
+    if([71,73,75].includes(codeAct)){ iconAct="❄️"; soundUrl="https://www.soundjay.com/nature/snow-01.mp3"; }
+    if([95,96,99].includes(codeAct)){ iconAct="🌩️"; soundUrl="https://www.soundjay.com/nature/thunder-01.mp3"; }
+
+    if(iconAct==="☀️") iconAct=`<span class="sun">☀️</span>`;
+    if(soundUrl){ currentSound.src=soundUrl; currentSound.play(); }
+
+    // Nuages
+    if(iconAct.includes("⛅")||iconAct.includes("☀️")){
+      for(let i=0;i<3;i++){
+        const cloud=document.createElement('div');
+        cloud.className='cloud';
+        cloud.style.top=(50+i*60)+'px';
+        cloud.style.left=(-100-i*150)+'px';
+        cloud.textContent='☁️';
+        cloud.style.animationDuration=(20+i*10)+'s';
+        document.body.appendChild(cloud);
+      }
+    }
+
+    // Pluie réaliste
+    if(iconAct.includes("🌧️")){
+      for(let i=0;i<100;i++){
+        const drop=document.createElement('div');
+        drop.className='rain';
+        drop.style.left=Math.random()*window.innerWidth+'px';
+        drop.style.animationDuration=(0.5+Math.random()*1)+'s';
+        drop.style.height=(10+Math.random()*10)+'px';
+        document.body.appendChild(drop);
+      }
+    }
+
+    // Neige réaliste
+    if(iconAct.includes("❄️")){
+      for(let i=0;i<50;i++){
+        const snow=document.createElement('div');
+        snow.className='snow';
+        snow.style.left=Math.random()*window.innerWidth+'px';
+        snow.style.animationDuration=(3+Math.random()*3)+'s';
+        snow.style.width=(4+Math.random()*4)+'px';
+        snow.style.height=(4+Math.random()*4)+'px';
+        document.body.appendChild(snow);
+      }
+    }
+
+    // Orage
+    if(iconAct.includes("🌩️")){
+      for(let i=0;i<3;i++){
+        const flash=document.createElement('div');
+        flash.className='lightning';
+        flash.style.left=(i*200+100)+'px';
+        document.body.appendChild(flash);
+      }
+    }
+
+    // Prévisions 3 jours
+    let html=`<strong>${nom}</strong> ${iconAct}<br>`;
+    for(let i=0;i<3;i++){
+      const max=data.daily.temperature_2m_max[i];
+      const min=data.daily.temperature_2m_min[i];
+      const code=data.daily.weathercode[i];
+      let ic="☀️";
+      if([1,2,3].includes(code)) ic="⛅";
+      if([61,63,65].includes(code)) ic="🌧️";
+      if([71,73,75].includes(code)) ic="❄️";
+      if([95,96,99].includes(code)) ic="🌩️";
+      const date = new Date(data.daily.time[i]);
+const nomJour = jours[date.getDay()];
+html+=`<div class="jour"><strong>${nomJour}</strong> ${ic}<span>Max: ${max}°C</span><span>Min: ${min}°C</span></div>`;
+
+    }
+
+    // Prévisions horaires 12h
+    html+=`<div class="hourly">`;
+    for(let i=0;i<12;i++){
+      const tempH=data.hourly.temperature_2m[i];
+      const codeH=data.hourly.weathercode[i];
+      let icH="☀️";
+      if([1,2,3].includes(codeH)) icH="⛅";
+      if([61,63,65].includes(codeH)) icH="🌧️";
+      if([71,73,75].includes(codeH)) icH="❄️";
+      if([95,96,99].includes(codeH)) icH="🌩️";
+      const dateH = new Date(data.hourly.time[i]);
+const heure = new Intl.DateTimeFormat('fr-FR', { 
+  hour: '2-digit', 
+  hour12: false, 
+  timeZone: 'Africa/Ndjamena' 
+}).format(dateH) + "h";
+
+html += `<div class="hour">${icH}<br>${tempH}°C<br>${heure}</div>`;
+
+    }
+    html+="</div>";
+    document.getElementById('meteo').innerHTML=html;
+  });
+}
+
+// Affichage N'Djamena au chargement
+window.onload = () => { getMeteo(12.1131,15.0492,"N'Djamena"); };
+</script>
+
+</body>
+</html>
