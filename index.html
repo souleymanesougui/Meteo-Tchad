@@ -39,8 +39,8 @@ h1 { margin-bottom: 20px; text-shadow: 2px 2px 5px #000; }
   margin-top: 20px; font-size: 20px; font-weight: bold;
   padding: 20px; background: rgba(0,0,0,0.25);
   border-radius: 20px; display: inline-block;
-  min-width: 300px; text-shadow: 1px 1px 3px #000;
-  position: relative;
+   width: 90%;        /* au lieu de min-width fixe */
+  max-width: 500px;  /* limite pour grands écrans */
 }
 
 .icon { font-size: 50px; display: block; margin: 10px 0; animation: bounce 1.5s infinite; }
@@ -60,10 +60,10 @@ h1 { margin-bottom: 20px; text-shadow: 2px 2px 5px #000; }
 @keyframes fallSnow { 0% { top: -10px; opacity:1; transform: translateX(0); } 100% { top: 100vh; opacity:0.5; transform: translateX(20px); } }
 @keyframes flash { 0%,80%,100% { opacity: 0; } 85%,90% { opacity: 1; } }
 
-.jour { margin-top: 10px; padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.2); display: inline-block; width: 80px; margin-right: 10px; }
+.jour { margin-top: 10px; padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.2); display: inline-block; width: 20%;min-width: 80px; margin-right: 5px; }
 .jour span { display: block; margin-top: 5px; } /* espace Max/Min */
 .hourly { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
-.hourly .hour { margin: 5px; padding: 8px; border-radius: 10px; background: rgba(0,0,0,0.2); width: 60px; text-align: center; font-size: 14px; }
+.hourly .hour { margin: 5px; padding: 8px; border-radius: 10px; background: rgba(0,0,0,0.2); width: 15%; min-width: 60px; text-align: center;font-size: 1rem;  }
 
 </style>
 </head>
